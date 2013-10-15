@@ -1,15 +1,13 @@
 #!/bin/sh
 
 # Keep upstart from complaining
-RUN dpkg-divert --local --rename --add /sbin/initctl
-RUN ln -s /bin/true /sbin/initctl
+dpkg-divert --local --rename --add /sbin/initctl
+ln -s /bin/true /sbin/initctl
 
 apt-get update && apt-get install -y mysql-server && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 sed -i -e"s/^bind-address\s*=\s*127.0.0.1/bind-address = 0.0.0.0/" /etc/mysql/my.cnf
-sed -i '/^datadir*/ s|/var/lib/mysql|/opt/mysql|' /etc/mysql/my.cnf
-rm -Rf /var/lib/mysql
 
 /usr/sbin/mysqld &
 sleep 5
-echo "GRANT ALL ON *.* TO admin@'%' IDENTIFIED BY 'mysql-server' WITH GRANT OPTION; FLUSH PRIVILEGES" | mysql
+echo "GRANT ALL ON *.* TO root@'%' IDENTIFIED BY 'mysql-server' WITH GRANT OPTION; FLUSH PRIVILEGES" | mysql

@@ -17,12 +17,7 @@ By default username is 'admin' and password is 'mysql-server'. But then you can 
     $ sudo docker run hughfletcher/mysql mysqladmin -h $IP -u admin -p'mysql-server' create <db name>
     $ sudo docker run hughfletcher/mysql mysql -h $IP -u admin -p'mysql-server' -e "RENAME USER admin@'%' TO <new username>@'%';"
 
-## Notes
-* MySql server is created for use by other containers on the same host. No ports are exposed on the host.
-* The MySql data directory is configured at `/opt/mysql` on the container for mounting a volume to the host.
-
 ## Todo
-* Confirm data directory works and can be used persistantly.
 * Tests
 
 ## Dependents/Uses
