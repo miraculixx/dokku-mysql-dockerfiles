@@ -10,7 +10,11 @@ sed -i -e"s/^bind-address\s*=\s*127.0.0.1/bind-address = 0.0.0.0/" /etc/mysql/my
 
 # http://dev.mysql.com/doc/refman/5.6/en/mysql-tzinfo-to-sql.html
 mysql_tzinfo_to_sql /usr/share/zoneinfo | mysql -u root mysql
-echo default-time-zone = 'UTC' >> /etc/mysql/my.cnf
+# http://dev.mysql.com/doc/refman/5.6/en/server-options.html#option_mysqld_default-time-zone
+echo "default-time-zone='UTC'" >> /etc/mysql/my.cnf
+# http://dev.mysql.com/doc/refman/5.1/en/server-system-variables.html#sysvar_lower_case_table_names
+# always set to 1 for innodb to avoid naming collisions on import/export
+echo "lower_case_table_names=1" >> /etc/mysql/my.cnf
 
 
 /usr/sbin/mysqld &
